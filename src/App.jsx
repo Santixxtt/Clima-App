@@ -75,15 +75,25 @@ function App() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  useEffect(() => {
+    if (bgPhoto && bgUrl) {
+      document.body.style.backgroundImage = `
+        linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)),
+        url(${bgUrl})
+      `;
+
+      document.body.style.backgroundSize = "cover";
+      document.body.style.backgroundPosition = "center";
+      document.body.style.backgroundRepeat = "no-repeat";
+      document.body.style.backgroundAttachment = "fixed";
+    } else {
+      document.body.style.backgroundImage =
+        "linear-gradient(135deg, #1a1a2e, #16213e, #0f3460)";
+    }
+  }, [bgPhoto, bgUrl]);
+
   return (
-    <div
-      className={`app ${bgPhoto && bgUrl ? "app--photo" : ""}`}
-      style={
-        bgPhoto && bgUrl
-          ? { "--bg-url": `url(${bgUrl})` }
-          : {}
-      }
-    >
+    <div className={`app ${bgPhoto && bgUrl ? "app--photo" : ""}`}>
       {bgUrl && (
         <button
           className="bg-toggle"
